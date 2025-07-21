@@ -5,12 +5,15 @@ import Main from "./Main";
 import Loader from "./Loader";
 import Error from "./Error";
 import StartScreen from "./StartScreen";
+import Questions from "./Questions";
 function reducer(state, action){
   switch(action.type){
     case "dataReceived":
       return{...state, questions: action.payload, stat: "Ready"};
     case "dataFailed":
       return{...state, stat: "Error"};
+      case "start":
+        return{...state, stat: "Active"};
       default:
     throw new Error("Action unknown: ");
   }
@@ -37,7 +40,8 @@ export default function App() {
 <Main>
   {stat === "Loading" && <Loader/>}
   {stat === "Error" && <Error/>}
-  {stat === "Ready" && <StartScreen numberQuestions={numberQuestions}/>}
+  {stat === "Ready" && <StartScreen numberQuestions={numberQuestions} dispatch={dispatch}/>}
+  {stat === "Active" && <Questions/>}
 
 
 </Main>
