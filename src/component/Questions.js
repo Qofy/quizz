@@ -1,16 +1,9 @@
-function Questions({question}) {
+import Option from "./Option";
+function Questions({question, answer, dispatch}) {
   return (
     <div className="start">
       <h4>{question.question}</h4>
-    <div className="options">
-      {question.options.map((option)=>{
-        return (
-          <button className="btn btn-option" key={option}>
-            {option}
-          </button>
-        );
-      })}
-    </div>
+    <Option question={question} answer={answer} dispatch={dispatch}/>
     </div>
   )
 }
