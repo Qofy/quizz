@@ -6,6 +6,8 @@ import Loader from "./Loader";
 import Error from "./Error";
 import StartScreen from "../StartScreen";
 import Questions from "./Questions";
+import NextQuestion from "./NextQuestion";
+
 function reducer(state, action){
   switch(action.type){
     case "dataReceived":
@@ -17,6 +19,8 @@ function reducer(state, action){
       case"newanswer":
       const question =  state.questions.at(state.index);
       return {...state, answer: action.payload, point: action.payload === question.correctOption ? state.point + question.point : state.point};
+    case "nextQuestion":
+      return{...state, index: state.index+1, answer:null};
       default:
     throw new Error("Action unknown: ");
   }
@@ -48,7 +52,11 @@ export default function App() {
   {stat === "Loading" && <Loader/>}
   {stat === "Error" && <Error/>}
   {stat === "Ready" && <StartScreen numberQuestions={numberQuestions} dispatch={dispatch}/>}
-  {stat === "Active" && <Questions question={questions[index]} answer={answer} dispatch={dispatch}/>}
+  {<>
+  stat === "Active" && <Questions question={questions[index]} answer={answer} dispatch={dispatch}/>
+<NextQuestion dispatch={dispatch} answer={answer}/>
+  </>
+  }
 
 
 </Main>
